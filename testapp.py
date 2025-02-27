@@ -28,14 +28,15 @@ def render_molecule(mol):
     view.addModel(pdb, 'pdb')
     view.setStyle({'stick': {}})
     view.zoomTo()
-    view.show()
-    return view
+    # 将视图转换为 HTML
+    html = view._make_html()
+    return html
 
 # 主逻辑
 if smiles:
     mol = generate_3d_structure(smiles)
     if mol:
         st.write("### 分子 3D 结构")
-        view = render_molecule(mol)
-        with st.container():
-            st.components.v1.html(view._make_html(), height=400, scrolling=True)
+        html = render_molecule(mol)
+        # 在 Streamlit 中显示 HTML
+        st.components.v1.html(html, width=400, height=300, scrolling=True)
